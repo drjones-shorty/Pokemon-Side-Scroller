@@ -1,6 +1,8 @@
 import pygame
 import time
 from random import randint
+import sys, pygame.mixer
+from pygame.locals import *
 
 pygame.init()
 
@@ -16,6 +18,7 @@ imgy = 0
 surface = pygame.display.set_mode((surfaceWidth,surfaceHeight))
 pygame.display.set_caption('Bulbasaur')
 clock = pygame.time.Clock()
+
 
 '''
 Restart or Quit Logic
@@ -63,7 +66,6 @@ def msgSurface(text):
 
     main()
 
-
 def gameOver():
     msgSurface('Kaboom!')
     
@@ -79,19 +81,11 @@ def main():
     img = pygame.image.load('Bulbasaur.png')
     img = pygame.transform.scale(img,(imageHeight,imageWidth))
     
-    # Load Evolved Player into memory
-    img2 = pygame.image.load('Ivysaur.png')
-    img2 = pygame.transform.scale(img2,(imageHeight+64,imageWidth+64))
-    
     # Load Enemy into memory
     chal = pygame.image.load('Charmander.png')
     chal = pygame.transform.scale(chal,(imageHeight,imageWidth))
-    
-    # Load bullet
-    bulletpicture = pygame.image.load("topbullet.gif")
-        
+            
     # Inital Game state
-    current_score = 0
     game_over = False     
     
     # Inital settings
@@ -131,7 +125,7 @@ def main():
         surface.blit(chal, (chalx,chaly))
         # Move enemy by adjusting x coordinates
         chalx -= pokespeed
-        
+
         # Set Upper & Lower boundaries
         if y > surfaceHeight or y < 0:
             gameOver()
@@ -144,13 +138,15 @@ def main():
         if chalx < (10):
             chalx = surfaceWidth
             chaly = randint(0, (surfaceHeight-imageHeight))
-        	
-        # Logic for player + enemy collision                                                                                                                                                                        if x >= chalx:
+
+
+        # Logic for player + enemy collision
+        if x >= chalx:
             print('x crossover')
             if y >= chaly - (imageHeight/2) and y <= chaly + (imageHeight/2):
                 print('boom!')
-                gameOver()
-
+                gameOver()    
+        	
         # Update the screen with new settings
         pygame.display.update()
         clock.tick(60)
@@ -158,19 +154,3 @@ def main():
 main()
 pygame.quit()
 quit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    

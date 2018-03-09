@@ -78,10 +78,6 @@ def main():
     img = pygame.image.load('Bulbasaur.png')
     img = pygame.transform.scale(img,(imageHeight,imageWidth))
     
-    # Load Evolved Player into memory
-    img2 = pygame.image.load('Ivysaur.png')
-    img2 = pygame.transform.scale(img2,(imageHeight,imageWidth))
-    
     # Load Enemy into memory
     chal = pygame.image.load('Charmander.png')
     chal = pygame.transform.scale(chal,(imageHeight,imageWidth))
@@ -110,8 +106,6 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     y_move = -20
-                if event.key == pygame.K_SPACE:
-                    img = img2
                     
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:

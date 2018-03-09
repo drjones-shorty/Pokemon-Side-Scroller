@@ -87,18 +87,10 @@ def main():
     img = pygame.image.load('Bulbasaur.png')
     img = pygame.transform.scale(img,(imageHeight,imageWidth))
     
-    # Load Evolved Player into memory
-    img2 = pygame.image.load('Ivysaur.png')
-    img2 = pygame.transform.scale(img2,(imageHeight+64,imageWidth+64))
-    
     # Load Enemy into memory
     chal = pygame.image.load('Charmander.png')
     chal = pygame.transform.scale(chal,(imageHeight,imageWidth))
 
-    # Load Evolved Enemy into memory
-    chal2 = pygame.image.load('Charizard.png')
-    chal2 = pygame.transform.scale(chal2,(imageHeight + 64,imageWidth + 64))
-    
     # Load bullet
     bulletpicture = pygame.image.load("topbullet.gif")
     bulletpicture = pygame.transform.scale(bulletpicture,(50,50))
@@ -132,7 +124,6 @@ def main():
                 if event.key == pygame.K_UP:
                     y_move = -20
                 if event.key == pygame.K_SPACE:
-                    if (len(bullets)) <= 2:
 	                    bullets.append([x + imageWidth,y + (imageHeight/2)])                    
             
             if event.type == pygame.KEYUP:
@@ -200,13 +191,6 @@ def main():
         if x >= chalx:
             if y >= chaly - (imageHeight/2) and y <= chaly + (imageHeight/2):
                 gameOver(explode,x,y)    
-
-        # Evolve
-        if current_score >= 10:
-            img = img2
-            imageHeight = 256
-            imageWidth = 256
-            chal = chal2
 
         	
         # Update the screen with new settings

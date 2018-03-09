@@ -81,10 +81,6 @@ def main():
     img = pygame.image.load('Bulbasaur.png')
     img = pygame.transform.scale(img,(imageHeight,imageWidth))
     
-    # Load Evolved Player into memory
-    img2 = pygame.image.load('Ivysaur.png')
-    img2 = pygame.transform.scale(img2,(imageHeight+64,imageWidth+64))
-    
     # Load Enemy into memory
     chal = pygame.image.load('Charmander.png')
     chal = pygame.transform.scale(chal,(imageHeight,imageWidth))
@@ -162,22 +158,6 @@ def main():
         for bullet in bullets:
             surface.blit(bulletpicture, pygame.Rect(bullet[0], bullet[1], 0, 0))
             
-        # Logic for bullet + enemy collision
-        for bullet in bullets:
-    	    if bullet[0]>=chalx and (bullet[1] <= chaly + (imageHeight) and bullet[1] >= chaly) :
-                #  Remove bullet
-                bullets.remove(bullet)
-                # Respawn 
-                chalx = surfaceWidth
-                chaly = randint(0, (surfaceHeight-imageHeight))
-                if pokespeed < 40:
-                    pokespeed += 1
-
-
-        # Logic for player + enemy collision 
-        if x >= chalx - imageWidth:
-            if y >= chaly + (imageHeight/2) and y <= chaly + (imageHeight/2):
-                gameOver()    
 
         # Logic for player + enemy collision
         if x >= chalx:
