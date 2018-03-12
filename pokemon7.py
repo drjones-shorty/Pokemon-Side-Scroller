@@ -79,10 +79,6 @@ def main():
     img = pygame.image.load('Bulbasaur.png')
     img = pygame.transform.scale(img,(imageHeight,imageWidth))
     
-    # Load Evolved Player into memory
-    img2 = pygame.image.load('Ivysaur.png')
-    img2 = pygame.transform.scale(img2,(imageHeight+64,imageWidth+64))
-    
     # Load Enemy into memory
     chal = pygame.image.load('Charmander.png')
     chal = pygame.transform.scale(chal,(imageHeight,imageWidth))

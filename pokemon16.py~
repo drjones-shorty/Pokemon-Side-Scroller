@@ -198,9 +198,8 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     y_move = moveRateMed * -1
-                
                 if event.key == pygame.K_LEFT:
-                    x_move = moveRateMed * -1
+                    x_move == moveratemed * -1
     
                 if event.key == pygame.K_SPACE:
                     if (len(bullets)) < maxScreenBullets :
@@ -209,9 +208,8 @@ def main():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     y_move = moveRateSlow            
-                
-                if event.key == pygame.K_LEFT:
-                    x_move = moveRateSlow    	
+            	if event.key == pygame.K_LEFT:
+                    x_move == moverateslow    	
 
         # Add Background
         surface.blit(imgBack, (imgBackX,imgBackY))

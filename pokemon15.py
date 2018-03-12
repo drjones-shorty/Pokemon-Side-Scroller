@@ -119,8 +119,8 @@ def main():
     hero = pygame.transform.scale(hero,(imageWidth,imageHeight))
     
     # Load Evolved Player into memory
-    img2 = pygame.image.load('Ivysaur.png')
-    img2 = pygame.transform.scale(img2,(evolvedWidth,evolvedHeight))
+    evolvedHero = pygame.image.load('Ivysaur.png')
+    evolvedHero = pygame.transform.scale(evolvedHero,(evolvedWidth,evolvedHeight))
     
     # Load Enemy into memory
     chal = pygame.image.load('Charmander.png')
