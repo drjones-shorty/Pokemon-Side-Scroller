@@ -78,8 +78,8 @@ def lives(lcount):
 
 def die(explode, x,y):
     surface.blit(explode, (x,y))
-    pygame.display.update()
     time.sleep(1)
+    pygame.display.update()
     clock.tick()
     
 def gameOver():
@@ -107,15 +107,15 @@ def main():
     bottomEdge = surfaceHeight - 10
     topEdge = -50
     maxScreenBullets = 5
-    moveRateFast = 30
-    moveRateMed = 20
-    moveRateSlow = 10
+    moveRateFast = 20
+    moveRateMed = 10
+    moveRateSlow = 5
     scoreIncr = 1
     scoreIncrMed = 5
     scoreIncrHigh = 10
     ememySpeedUpRate = 1
-    evolveStage2Score = 16
-    evolvestage3score = 32
+    evolveStage2Score = 50
+    evolvestage3score = 150
     
 
     # Load background   
@@ -179,7 +179,7 @@ def main():
     bullets=[]
     pokespeed = 10
     mountx = offscreenX
-    mounty = surfaceHeight - randint(200,(surfaceHeight/2))
+    mounty = surfaceHeight - randint(300,(surfaceHeight/2))
 
     
     # Game Loop
@@ -195,11 +195,20 @@ def main():
             if event.type == pygame.QUIT:
                 game_over = True
 
+            # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
+            if event.type == pygame.JOYBUTTONDOWN:
+                if (len(bullets)) < maxScreenBullets :
+	            bullets.append([x + imageWidth,y + (imageHeight/2)])                    
+                print("Joystick button pressed.")
+            if event.type == pygame.JOYBUTTONUP:
+                print("Joystick button released.")
+            
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     y_move = moveRateMed * -1
+                
                 if event.key == pygame.K_LEFT:
-                    x_move == moveratemed * -1
+                    x_move = moveRateMed * -1
     
                 if event.key == pygame.K_SPACE:
                     if (len(bullets)) < maxScreenBullets :
@@ -208,8 +217,9 @@ def main():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     y_move = moveRateSlow            
-            	if event.key == pygame.K_LEFT:
-                    x_move == moverateslow    	
+                
+                if event.key == pygame.K_LEFT:
+                    x_move = moveRateSlow    	
 
         # Add Background
         surface.blit(imgBack, (imgBackX,imgBackY))
@@ -272,8 +282,8 @@ def main():
         # Logic to respawn mountain when last one flys off screen
         if mountx < (-300):
             mountx = surfaceWidth
-            mounty = randint(175,500)
-            if pokespeed < moveRateFast:
+            mounty = randint(275,500)
+            if pokespeed < moveRateMed:
                 pokespeed += ememySpeedUpRate            
             
         # Move bullets

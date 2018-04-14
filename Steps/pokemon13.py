@@ -11,11 +11,7 @@ surfaceWidth = 1000
 surfaceHeight = 700
     
 pygame.init()
-pygame.mixer.pre_init(44100, -16, 2, 2048) # setup mixer to avoid sound lag
-pygame.mixer.init()
-pygame.mixer.music.load('dragons.mp3')
 surface = pygame.display.set_mode((surfaceWidth,surfaceHeight))
-# name of window
 pygame.display.set_caption('Bulbasaur')
 clock = pygame.time.Clock()    
 
@@ -97,8 +93,6 @@ def main():
     imageWidth = 192
     evolvedHeight = imageHeight+64
     evolvedWidth = imageWidth+64
-    evolvedheight2 = imageHeight+80
-    evolvedwidth2 = imageWidth+80
     iconXreset = 50
     iconYreset = 200
     offscreenX = surfaceWidth + 100
@@ -110,12 +104,11 @@ def main():
     moveRateFast = 30
     moveRateMed = 20
     moveRateSlow = 10
+    evolveStage2Score = 30
     scoreIncr = 1
     scoreIncrMed = 5
     scoreIncrHigh = 10
     ememySpeedUpRate = 1
-    evolveStage2Score = 16
-    evolvestage3score = 32
     
 
     # Load background   
@@ -129,57 +122,38 @@ def main():
     evolvedHero = pygame.image.load('Ivysaur.png')
     evolvedHero = pygame.transform.scale(evolvedHero,(evolvedWidth,evolvedHeight))
     
-    # Load evolved 2 player into memory
-    evolvedhero2 = pygame.image.load('venusaur.png')
-    evolvedhero2 = pygame.transform.scale(evolvedhero2,(evolvedwidth2,evolvedheight2))
-    
     # Load Enemy into memory
     chal = pygame.image.load('Charmander.png')
     chal = pygame.transform.scale(chal,(imageWidth,imageHeight))
 
     # Load Evolved Enemy into memory
-    evolvedChal = pygame.image.load('charmelon.png')
+    evolvedChal = pygame.image.load('Charizard.png')
     evolvedChal = pygame.transform.scale(evolvedChal,(evolvedWidth,evolvedHeight))
-    
-    # Load Evolved enemy 2 into memory
-    evolvedchal2 = pygame.image.load('Charizard.png')
-    evolvedchal2 = pygame.transform.scale(evolvedchal2,(evolvedwidth2,evolvedheight2))
     
     # Load bullet
     bulletpicture = pygame.image.load("topbullet.gif")
     bulletpicture = pygame.transform.scale(bulletpicture,(50,50))
     
-    # Load apple
-    apple = pygame.image.load("apple.png")
-    apple = pygame.transform.scale(apple,(128,128))
-
     # Load dead Player into memory
     explode = pygame.image.load('boom.png')
     explode = pygame.transform.scale(explode,(evolvedWidth,evolvedHeight))    
-
-    # Load mountains into memory
-    mountaintop = pygame.image.load('mountaintop.png')    
 
         
     # Inital Game state
     current_score = 0
     current_lives = 3
     game_over = False
-    apple_on = False     
+
     
     # Inital settings
     x = iconXreset
     y = iconYreset
     chalx = surfaceWidth
     chaly = randint(0,(surfaceHeight/2))
-    applex = surfaceWidth
-    appley = randint(0,(surfaceHeight/2))    
     y_move = 0
-    x_move = 0 
+    x_move = 0
     bullets=[]
     pokespeed = 10
-    mountx = offscreenX
-    mounty = surfaceHeight - randint(200,(surfaceHeight/2))
 
     
     # Game Loop
@@ -198,27 +172,20 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     y_move = moveRateMed * -1
-                
-                if event.key == pygame.K_LEFT:
-                    x_move = moveRateMed * -1
-    
+
                 if event.key == pygame.K_SPACE:
-                    if (len(bullets)) < maxScreenBullets :
+                    if (len(bullets)) <= maxScreenBullets :
 	                    bullets.append([x + imageWidth,y + (imageHeight/2)])                    
             
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
-                    y_move = moveRateSlow            
-                
-                if event.key == pygame.K_LEFT:
-                    x_move = moveRateSlow    	
+                    y_move = moveRateSlow
 
         # Add Background
         surface.blit(imgBack, (imgBackX,imgBackY))
         
         # Set new y coord based on user input
         y += y_move
-        x += x_move
         # Add player icon
         icon(x, y, hero)
         
@@ -227,25 +194,6 @@ def main():
         # Move enemy by adjusting x coordinates
         chalx -= pokespeed
         
-        # Add mountains
-        surface.blit(mountaintop, (mountx,mounty))
-        # Move enemy by adjusting x coordinates
-        mountx -= pokespeed        
-        
-        # Add apple
-        if current_score%20==0 and apple_on == False:
-            apple_on = True
-
-        if apple_on:
-            surface.blit(apple, (applex,appley))
-            # Move enemy by adjusting x coordinates
-            applex -= moveRateFast
-            # Logic to respawn enemy when last enemy flys off screen
-            if applex < (leftEdge):
-                applex = offscreenX
-                appley = randint(0,(surfaceHeight/2))
-                apple_on = False
-
         # Set the Score
         score(current_score)
         
@@ -270,13 +218,6 @@ def main():
             chalx = surfaceWidth
             chaly = randint(0,(surfaceHeight/2))
             current_score -= scoreIncrMed
-
-        # Logic to respawn mountain when last one flys off screen
-        if mountx < (-300):
-            mountx = surfaceWidth
-            mounty = randint(175,500)
-            if pokespeed < moveRateFast:
-                pokespeed += ememySpeedUpRate            
             
         # Move bullets
         for b in range(len(bullets)):
@@ -314,35 +255,19 @@ def main():
                 chalx = surfaceWidth
                 chaly = randint(0,(surfaceHeight/2))
 
-
-        # Logic for player + apple collision 
-        if x >= applex:
-            if y >= appley - (imageHeight/2) and y <= appley + (imageHeight/2):              
-                # reset
-                x = iconXreset
-                current_score += scoreIncrMed
-                applex = offscreenX
-                appley = randint(0,(surfaceHeight/2))
-                apple_on = False
-                
         # Update the screen with new settings
         pygame.display.update()
-        clock.tick(60)
+        clock.tick(120)
                                         
         # Evolve
         if current_score >= evolveStage2Score:
             hero = evolvedHero
             imageHeight = evolvedHeight
             imageWidth = evolvedWidth
-            chal = evolvedChal   
-              	
-        if current_score >= evolvestage3score:
-            hero = evolvedhero2
-            imageheight = evolvedheight2
-            imagewidth = evolvedwidth2
-            chal = evolvedchal2
-			
-pygame.mixer.music.play(-1)
+            chal = evolvedChal
+     	
+
+
 main()
 pygame.quit()
 quit()
